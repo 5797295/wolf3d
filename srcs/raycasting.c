@@ -6,30 +6,33 @@
 /*   By: jukim <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/30 22:00:41 by jukim             #+#    #+#             */
-/*   Updated: 2018/06/03 02:09:59 by jukim            ###   ########.fr       */
+/*   Updated: 2018/06/09 21:10:11 by jukim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "wolf3d.h"
 
+void	xpm_to_texture(t_env *e, int i, int j)
+{
+	while (++j < e->block_w)
+	{
+		e->texture[0][(i * (int)e->block_w) + j] =
+			e->tex[(e->ang == 1 ? 8 : 4)].data[(i * (int)e->block_w) + j];
+		e->texture[1][(i * (int)e->block_w) + j] =
+			e->tex[1].data[(i * (int)e->block_w) + j];
+		e->texture[2][(i * (int)e->block_w) + j] =
+			e->tex[2].data[(i * (int)e->block_w) + j];
+	}
+}
+
 void	wolf_ray_cast(t_env *e)
 {
-	int		i;
-	int		j;
-
-	i = -1;
-	e->texture = (int**)malloc(sizeof(int*) * 3);
-	while (++i < 3)
-		e->texture[i] = (int*)malloc(sizeof(int) *
-				(int)(e->block_w * e->block_h));
-	i = -1;
-	while (++i < e->block_h)
-	{
-		j = -1;
-		wall_texture(e, i, j);
-	}
-	ft_bzero(e->data, e->win_x * e->win_y * 4);
+	malloc_texture(e);
+	tex_into_texture(e, -1, -1);
 	position(e);
+	if (e->caption == 1)
+		mlx_string_put(e->mlx_ptr, e->win_ptr, e->win_x / 2 - 20,
+				e->win_y / 2 - 60, 255, "ARE YOU SURE?");
 }
 
 void	wall_texture(t_env *e, int i, int j)
@@ -37,7 +40,9 @@ void	wall_texture(t_env *e, int i, int j)
 	while (++j < e->block_w)
 	{
 		if (j % 16 == 0)
+		{
 			e->texture[0][(i * (int)e->block_w) + j] = 0x123123;
+		}
 		else if (i % 8 == 0)
 			e->texture[0][(i * (int)e->block_w) + j] = 0x123123;
 		else
@@ -45,20 +50,12 @@ void	wall_texture(t_env *e, int i, int j)
 	}
 	j = -1;
 	while (++j < e->block_w)
-	{
-		if (j % 32 == 0 || i % 32 == 0)
-			e->texture[1][(i * (int)e->block_w) + j] = 0x000000;
-		else
-			e->texture[1][(i * (int)e->block_w) + j] = 0xFFFFFF;
-	}
+		e->texture[1][(i * (int)e->block_w) + j] = (j % 32 == 0 || i % 32 == 0 ?
+				0x000000 : 0xFFFFFF);
 	j = -1;
 	while (++j < e->block_w)
-	{
-		if (j % 3 == 0 || i % 5 == 0)
-			e->texture[2][(i * (int)e->block_w) + j] = 0x000000;
-		else
-			e->texture[2][(i * (int)e->block_w) + j] = 0x800000;
-	}
+		e->texture[2][(i * (int)e->block_w) + j] = (j % 3 == 0 || i % 5 == 0 ?
+			0x000000 : 0x800000);
 }
 
 void	wolf_ray_cast_calc(t_env *e, int x)
@@ -90,13 +87,13 @@ void	wolf_ray_cast_dda(t_env *e)
 		{
 			POS.side_dist_x += POS.delta_dist_x;
 			POS.map_x += POS.step_x;
-			POS.side = 0;
+			POS.side = (POS.ray_dir_x > 0 ? 0 : 1);
 		}
 		else
 		{
 			POS.side_dist_y += POS.delta_dist_y;
 			POS.map_y += POS.step_y;
-			POS.side = 1;
+			POS.side = (POS.ray_dir_y > 0 ? 2 : 3);
 		}
 		if (e->map[POS.map_y][POS.map_x].wall_type > 0)
 		{
