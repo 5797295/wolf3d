@@ -6,7 +6,7 @@
 /*   By: jukim <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/30 23:16:24 by jukim             #+#    #+#             */
-/*   Updated: 2018/06/11 21:48:56 by jukim            ###   ########.fr       */
+/*   Updated: 2018/06/11 21:55:06 by jukim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,6 @@ void	wolf_find_max(char *av, t_env *e)
 		free(line);
 		e->y_max += 1;
 	}
-	e->y_max != e->x_max ? error_exit(2, fd) : 0;
 	close(fd);
 }
 
@@ -98,7 +97,7 @@ void	wolf_put_struct(int **file, t_env *e)
 	int		x;
 
 	y = -1;
-	e->x_max < 5 ? error_exit(3, 0) : 0;
+	e->x_max < 5 || e->y_max < 5 ? error_exit(3, 0) : 0;
 	while (++y < e->y_max)
 	{
 		x = -1;
