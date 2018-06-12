@@ -6,11 +6,23 @@
 /*   By: jukim <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/09 20:29:54 by jukim             #+#    #+#             */
-/*   Updated: 2018/06/09 21:23:42 by jukim            ###   ########.fr       */
+/*   Updated: 2018/06/11 21:49:02 by jukim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "wolf3d.h"
+
+void	file_check(char *av)
+{
+	int		fd;
+	int		ret;
+	char	str[BUF + 1];
+
+	(fd = open(av, O_RDONLY)) < 0 ? error_exit(1, fd) : 0;
+	ret = read(fd, str, BUF);
+	*str == 0 ? error_exit(1, fd) : 0;
+	close(fd);
+}
 
 int		animate(t_env *e)
 {

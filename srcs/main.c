@@ -6,7 +6,7 @@
 /*   By: mhwangbo <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/25 14:54:29 by mhwangbo          #+#    #+#             */
-/*   Updated: 2018/06/09 20:25:14 by jukim            ###   ########.fr       */
+/*   Updated: 2018/06/11 21:48:59 by jukim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,16 +57,32 @@ void	init_value(t_env *e)
 	e->caption = 0;
 }
 
+void	error_exit(int i, int fd)
+{
+	if (i == 0)
+		ft_putendl("usage: ./wolf3d <map_file>");
+	else if (i == 1)
+	{
+		close(fd);
+		ft_putendl("error: empty/nonexisting file");
+	}
+	else if (i == 2)
+	{
+		close(fd);
+		ft_putendl("error: invalid file format");
+	}
+	else if (i == 3)
+		ft_putendl("error: invalid file format");
+	exit(0);
+}
+
 int		main(int ac, char **av)
 {
 	t_env	e;
 	int		**file;
 
 	if (ac != 2)
-	{
-		ft_putendl("usage: ./wolf3d <map_file>");
-		return (0);
-	}
+		error_exit(0, 0);
 	ft_bzero(&e, sizeof(t_env));
 	wolf_find_max(av[1], &e);
 	file = wolf_read(av[1], &e);
