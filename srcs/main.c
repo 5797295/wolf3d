@@ -6,7 +6,7 @@
 /*   By: mhwangbo <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/25 14:54:29 by mhwangbo          #+#    #+#             */
-/*   Updated: 2018/06/11 21:48:59 by jukim            ###   ########.fr       */
+/*   Updated: 2018/06/16 19:18:38 by jukim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,8 +41,8 @@ void	init_value(t_env *e)
 	e->win_y = 480;
 	e->block_w = 64;
 	e->block_h = 64;
-	e->pos.pos_x = 3;
-	e->pos.pos_y = 3;
+	e->pos.pos_x = 1.5;
+	e->pos.pos_y = 1.5;
 	e->pos.dir_x = -1.0;
 	e->pos.dir_y = 0.0;
 	e->pos.plane_x = 0.0;
@@ -60,11 +60,14 @@ void	init_value(t_env *e)
 void	error_exit(int i, int fd)
 {
 	if (i == 0)
+	{
 		ft_putendl("usage: ./wolf3d <map_file>");
+		ft_putendl("\t<map_file> size must be at least 5x5");
+	}
 	else if (i == 1)
 	{
 		close(fd);
-		ft_putendl("error: empty/nonexisting file");
+		ft_putendl("error: empty or nonexisting <map_file>");
 	}
 	else if (i == 2)
 	{

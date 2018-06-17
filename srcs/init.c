@@ -6,7 +6,7 @@
 /*   By: jukim <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/30 23:16:24 by jukim             #+#    #+#             */
-/*   Updated: 2018/06/11 21:55:06 by jukim            ###   ########.fr       */
+/*   Updated: 2018/06/16 19:18:58 by jukim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,9 @@ void	wolf_put_struct(int **file, t_env *e)
 {
 	int		y;
 	int		x;
+	int		c;
 
+	c = 0;
 	y = -1;
 	e->x_max < 5 || e->y_max < 5 ? error_exit(3, 0) : 0;
 	while (++y < e->y_max)
@@ -106,9 +108,13 @@ void	wolf_put_struct(int **file, t_env *e)
 		{
 			if (y == 0 || x == 0 || x == e->x_max - 1 || y == e->y_max - 1)
 				file[y][x] != 1 ? error_exit(3, 0) : 0;
+			if (y == 1 && x == 1)
+				file[y][x] != 0 ? error_exit(3, 0) : 0;
+			file[y][x] != 1 ? c++ :0;
 			e->map[y][x].x = x;
 			e->map[y][x].y = y;
 			e->map[y][x].wall_type = file[y][x];
 		}
 	}
+	c == 0 ? error_exit(3, 0) : 0;
 }
