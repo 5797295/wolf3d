@@ -6,7 +6,7 @@
 /*   By: jukim <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/30 23:16:24 by jukim             #+#    #+#             */
-/*   Updated: 2018/06/16 19:18:58 by jukim            ###   ########.fr       */
+/*   Updated: 2018/06/17 20:28:38 by jukim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,7 @@ void	wolf_put_struct(int **file, t_env *e)
 
 	c = 0;
 	y = -1;
-	e->x_max < 5 || e->y_max < 5 ? error_exit(3, 0) : 0;
+	e->x_max < 3 || e->y_max < 3 ? error_exit(3, 0) : 0;
 	while (++y < e->y_max)
 	{
 		x = -1;

@@ -6,7 +6,7 @@
 /*   By: mhwangbo <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/25 14:54:29 by mhwangbo          #+#    #+#             */
-/*   Updated: 2018/06/16 19:18:38 by jukim            ###   ########.fr       */
+/*   Updated: 2018/06/17 20:29:18 by jukim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ void	error_exit(int i, int fd)
 	if (i == 0)
 	{
 		ft_putendl("usage: ./wolf3d <map_file>");
-		ft_putendl("\t<map_file> size must be at least 5x5");
+		ft_putendl("\t<map_file> size must be at least 3x3");
 	}
 	else if (i == 1)
 	{
